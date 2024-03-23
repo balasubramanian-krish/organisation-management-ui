@@ -22,6 +22,9 @@ function Navbar(props) {
     const navigateToUsers = () => {
         navigate('/users');
     }
+    const navigateToRoles = () => {
+        navigate('/roles');
+    }
     return (
         <><nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -33,7 +36,7 @@ function Navbar(props) {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     {roleId === '1' ? (
                         <><li className="nav-item">
-                                <button className="nav-link active" aria-current="page">Roles</button>
+                                <button className="nav-link active" onClick={navigateToRoles} aria-current="page">Roles</button>
                             </li><li className="nav-item">
                                     <button className="nav-link" onClick={navigateToUsers}>Users</button>
                                 </li></>

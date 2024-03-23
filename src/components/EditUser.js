@@ -11,11 +11,14 @@ function EditUser({ data }) {
   const [phone, setPhone] = useState('');
   const [options, setOptions] = useState([]);
   const [roles, setRoles] = useState('');
+  const [errors, setErrors] = useState({});
   const handleNameChange = (event) => {
     setName(event.target.value);
+    errors.name = '';
   };
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
+    errors.email = '';
   };
   const handlePhoneChange = (event) => {
     setPhone(event.target.value);
@@ -53,31 +56,52 @@ function EditUser({ data }) {
   }, []);
   const onSaveUser = async (e) => {
     e.preventDefault();
-    let requestBody = {
-      "name":name,
-      "email":email,
-      "phone":phone,
-      "id":id,
-      "roles": document.querySelector("#role").value
-  };
-  try {
-      await fetch('http://localhost:3000/auth/users', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestBody)
-        }).then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          navigate('/users');
-        })
+    const errors = validateForm();
+    if (Object.keys(errors).length === 0) {
+      let requestBody = {
+        "name":name,
+        "email":email,
+        "phone":phone,
+        "id":id,
+        "roles": document.querySelector("#role").value
+      };
+      try {
+        await fetch('http://localhost:3000/auth/users', {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestBody)
+          }).then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            navigate('/users');
+          })
       } catch (error) {
-        alert("something went wrong")
+          alert("User already Exist")
       }
+    } else {
+      setErrors(errors);
+    }
   };
-
+  const validateForm = () => {
+    let errors = {};
+    if (name.trim() === "") {
+      errors.name = 'Name is required';
+    }
+    if (email.trim() === "") {
+      debugger
+      errors.email = 'Email is required';
+    }
+    if (email.trim() !== "") {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(regex.test(email) === false) {
+        errors.email = 'Email is not valid';
+      }
+    }
+    return errors;
+  };
   return (<><Navbar></Navbar><div className="container mt-5">
     <div className="row justify-content-center">
       <div className="col-md-10">
@@ -90,6 +114,7 @@ function EditUser({ data }) {
               <div className="form-group">
                 <label className="control-label" for="name">Name</label>
                 <input type="text" className="form-control"  value={name} onChange={handleNameChange} id="name" placeholder="Enter Name" />
+                {errors.name && <div className="error">{errors.name}</div>}
               </div>
               <div className="form-group">
                 <label className="control-label" for="name">Role</label>
@@ -103,6 +128,7 @@ function EditUser({ data }) {
               <div className="form-group">
                 <label for="email">Email address</label>
                 <input type="email" className="form-control" value={email} id="email" placeholder="Enter email" onChange={handleEmailChange} />
+                {errors.email && <div className="error">{errors.email}</div>}
               </div>
               <div className="form-group">
                 <label className="control-label" for="phone">Phone</label>
