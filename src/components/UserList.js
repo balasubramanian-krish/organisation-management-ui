@@ -17,6 +17,7 @@ function UserList({ data }) {
       try {
         await fetch('http://localhost:3000/auth/users/'+event.target.value, {
           method: 'DELETE',
+          credentials: 'include',
           }).then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');

@@ -12,7 +12,7 @@ function Users() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/auth/users');
+        const response = await axios.get('http://localhost:3000/auth/users',{ withCredentials: true });
         setData(response.data);
       } catch (error) {
         
@@ -31,7 +31,7 @@ function Users() {
             </div>
         </div>
           <h3>User List</h3>
-          <UserList data={data} />
+          <UserList  data={data} />
       </div></>
   );
 }

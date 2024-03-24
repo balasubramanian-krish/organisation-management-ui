@@ -12,7 +12,7 @@ function Roles() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/auth/roles');
+        const response = await axios.get('http://localhost:3000/auth/roles',{ withCredentials: true });
         setData(response.data);
       } catch (error) {
         

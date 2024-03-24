@@ -3,9 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 function Dashboard(props) {
     const navigate = useNavigate();
-    if(localStorage.roleId !== "1"){
-        navigate('/userDashboard');
+    const redirectToHome = () => {
+        if(localStorage.isLoggedIn !== "true") {
+            window.location.href = 'http://localhost:3001/';
+            navigate('/');
+        }
     }
+    redirectToHome()
     return (
         <><Navbar></Navbar><main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">

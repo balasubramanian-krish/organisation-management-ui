@@ -2,6 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 function Navbar(props) {
     const navigate = useNavigate();
+    const redirectToHome = () => {
+        if(localStorage.isLoggedIn !== "true") {
+            window.location.href = 'http://localhost:3001/';
+        }
+    }
+    redirectToHome();
     const username = localStorage.userName;
     const roleId = localStorage.roleId;
     const onLogout = async (e) => {
@@ -13,6 +19,13 @@ function Navbar(props) {
             throw new Error('some thing went wrong');
             }
             localStorage.setItem('isLoggedIn', "false");
+            localStorage.setItem('userEmail', "");
+            localStorage.setItem('userName', "");
+            localStorage.setItem('roleName', "");
+            localStorage.setItem('roleId', "");
+            const c = document.cookie.split("; ");
+            for (let i in c) 
+             document.cookie =/^[^=]+/.exec(c[i])[0]+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT"; 
             navigate('/');
         } catch (error) {
             alert("Invalid Credentials");

@@ -37,7 +37,7 @@ function AddUser({ data }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/auth/roles');
+        const response = await axios.get('http://localhost:3000/auth/roles',{ withCredentials: true });
         setOptions(response.data);
       } catch (error) {
         
@@ -61,6 +61,7 @@ function AddUser({ data }) {
       try {
         await fetch('http://localhost:3000/auth/users', {
           method: 'POST',
+          credentials: 'include',
           headers: {
               'Content-Type': 'application/json'
           },

@@ -29,7 +29,7 @@ function EditUser({ data }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/auth/users/'+id);
+        const response = await axios.get('http://localhost:3000/auth/users/'+id,{ withCredentials: true });
         setName(response.data.name);
         setEmail(response.data.email);
         setPhone(response.data.phone);
@@ -44,7 +44,7 @@ function EditUser({ data }) {
     fetchData();
     const fetchRoles = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/auth/roles');
+        const response = await axios.get('http://localhost:3000/auth/roles',{ withCredentials: true });
         setOptions(response.data);
       } catch (error) {
         
@@ -68,6 +68,7 @@ function EditUser({ data }) {
       try {
         await fetch('http://localhost:3000/auth/users', {
           method: 'PUT',
+          credentials: 'include',
           headers: {
               'Content-Type': 'application/json'
           },
